@@ -6,9 +6,11 @@ using UnityEngine.UI;
 public class MoleSpawner : MonoBehaviour
 {
     public GameObject molePrefab;
+    private GameObject mole;
     public Transform[] spawnPoints;
     public float gameTime;
     public Text gameText;
+    private float moleTime;
 
     // Start is called before the first frame update
     void Start()
@@ -26,12 +28,21 @@ public class MoleSpawner : MonoBehaviour
             gameTime = 0;
         }
         gameText.text = gameTime.ToString();
+
+        // Apparition frequency
+        if(gameTime < (moleTime - randomFrequency()))
+        {
+            Destroy(mole);
+            Spawn();
+        }
     }
 
     // Spawn randomly the mole on a point of spawnPoints
     public void Spawn()
     {
-        GameObject mole = Instantiate(molePrefab) as GameObject;
+        // Initialization
+        moleTime = gameTime;
+        mole = Instantiate(molePrefab) as GameObject;
         
         // Change randomly color
         mole.GetComponent<Renderer>().material.color = randomColor();
@@ -49,5 +60,10 @@ public class MoleSpawner : MonoBehaviour
     Color randomColor()
     {
         return new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f),1);
+    }
+
+    float randomFrequency()
+    {
+        return Random.Range(0.3f, 2.0f);
     }
 }
