@@ -5,12 +5,26 @@ using UnityEngine.UI;
 
 public class MoleSpawner : MonoBehaviour
 {
-    public GameObject molePrefab;
+    //////////////////////////
+    //       VARIABLES      //
+    //////////////////////////
+
+    // ---- Type Mole ---- //
+    public GameObject basicMole;
+    public GameObject bonusMole;
+    public GameObject malusMole;
     private GameObject mole;
-    public Transform[] spawnPoints;
+    // ------ Window ----- //
     public float gameTime;
     public Text gameText;
+    // ------ Spawn ------ //
+    public Transform[] spawnPoints;
     private float moleTime;
+
+
+    //////////////////////////
+    //       FUNCTIONS      //
+    //////////////////////////
 
     // Start is called before the first frame update
     void Start()
@@ -42,11 +56,13 @@ public class MoleSpawner : MonoBehaviour
     {
         // Initialization
         moleTime = gameTime;
-        mole = Instantiate(molePrefab) as GameObject;
-        
+
+        // Change randomly type
+        randomType();
+
         // Change randomly color
         mole.GetComponent<Renderer>().material.color = randomColor();
-        
+
         // Change randomly position
         mole.transform.position = spawnPoints[randomSpawn()].transform.position;
     }
@@ -62,8 +78,31 @@ public class MoleSpawner : MonoBehaviour
         return new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f),1);
     }
 
+    GameObject randomType()
+    {
+        float t = Random.Range(0, 7);
+        if (t <= 4)
+        {
+            mole = Instantiate(basicMole) as GameObject;
+        }
+        else if (t == 5)
+        {
+            mole = Instantiate(bonusMole) as GameObject;
+        }
+        else if (t == 6)
+        {
+            mole = Instantiate(malusMole) as GameObject;
+        }
+        return mole;
+    }
+
     float randomFrequency()
     {
         return Random.Range(0.3f, 2.0f);
     }
+    /*
+    float randomExposition()
+    {
+
+    }*/
 }

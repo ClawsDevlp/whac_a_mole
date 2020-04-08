@@ -297,7 +297,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0c660efdf4f1c408c2468249d06f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  molePrefab: {fileID: 1031647709328010088, guid: 3d2a8aa20154b6547ab328101c4f005b,
+  basicMole: {fileID: 1558752205548206804, guid: 5bf295d1a6dfab341bc72825407c2270,
+    type: 3}
+  bonusMole: {fileID: 6656878126928473981, guid: bea8832696ec7c346ad896598aa6b9e1,
+    type: 3}
+  malusMole: {fileID: 7246491499032051183, guid: 4f57131806cf09f498642584e880da9c,
     type: 3}
   spawnPoints:
   - {fileID: 1946063184}
@@ -319,7 +323,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19339624, g: 0.5, b: 0.40392157, a: 0}
+  m_BackGroundColor: {r: 0.3236027, g: 0.6792453, b: 0.3596939, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
