@@ -43,10 +43,15 @@ public class MoleSpawner : MonoBehaviour
         }
         gameText.text = gameTime.ToString();
 
-        // Apparition frequency
-        if(gameTime < (moleTime - randomFrequency()))
+        // Exposure time
+        if(gameTime < (moleTime - randomExposure()))
         {
             Destroy(mole);
+        }
+
+        // Frequency
+        if(gameTime < (moleTime - randomFrequency()))
+        {
             Spawn();
         }
     }
@@ -96,13 +101,13 @@ public class MoleSpawner : MonoBehaviour
         return mole;
     }
 
+    float randomExposure()
+    {
+        return Random.Range(0.5f, 2.0f);
+    }
+
     float randomFrequency()
     {
-        return Random.Range(0.3f, 2.0f);
+        return Random.Range(0.5f, 3.0f);
     }
-    /*
-    float randomExposition()
-    {
-
-    }*/
 }

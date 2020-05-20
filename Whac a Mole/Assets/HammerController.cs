@@ -14,7 +14,7 @@ public class HammerController : MonoBehaviour
     void Start()
     {
         score = 0;
-        ms = GetComponent<MoleSpawner>();
+        ms = GetComponent < MoleSpawner>();
         
     }
 
