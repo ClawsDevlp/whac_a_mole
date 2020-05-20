@@ -20,6 +20,7 @@ public class MoleSpawner : MonoBehaviour
     // ------ Spawn ------ //
     public Transform[] spawnPoints;
     private float moleTime;
+    private int lastIndexSpawn;
 
 
     //////////////////////////
@@ -29,6 +30,7 @@ public class MoleSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        lastIndexSpawn = -1;
         Spawn();
     }
 
@@ -47,12 +49,12 @@ public class MoleSpawner : MonoBehaviour
         if(gameTime < (moleTime - randomExposure()))
         {
             Destroy(mole);
-        }
-
-        // Frequency
-        if(gameTime < (moleTime - randomFrequency()))
-        {
-            Spawn();
+            
+            // Frequency
+            if(gameTime < (moleTime - randomFrequency()))
+            {
+                Spawn();
+            }
         }
     }
 
@@ -63,7 +65,7 @@ public class MoleSpawner : MonoBehaviour
         moleTime = gameTime;
 
         // Change randomly type
-        randomType();
+        mole = randomType();
 
         // Change randomly color
         mole.GetComponent<Renderer>().material.color = randomColor();
@@ -75,7 +77,14 @@ public class MoleSpawner : MonoBehaviour
     // Random à remplacer par les proba du prof
     int randomSpawn()
     {
-        return Random.Range(0, spawnPoints.Length);
+        int randomSpawn = -1;
+        // Not on same position as last mole
+        while(randomSpawn == lastIndexSpawn || randomSpawn == -1)
+        {
+            randomSpawn = Random.Range(0, spawnPoints.Length);
+        }
+        lastIndexSpawn = randomSpawn;
+        return randomSpawn;
     }
 
     Color randomColor()
@@ -86,19 +95,20 @@ public class MoleSpawner : MonoBehaviour
     GameObject randomType()
     {
         float t = Random.Range(0, 7);
-        if (t <= 4)
+        GameObject tempMole;
+        if (t == 5)
         {
-            mole = Instantiate(basicMole) as GameObject;
-        }
-        else if (t == 5)
-        {
-            mole = Instantiate(bonusMole) as GameObject;
+            tempMole = Instantiate(bonusMole) as GameObject;
         }
         else if (t == 6)
         {
-            mole = Instantiate(malusMole) as GameObject;
+            tempMole = Instantiate(malusMole) as GameObject;
+        } 
+        else 
+        {
+            tempMole = Instantiate(basicMole) as GameObject;
         }
-        return mole;
+        return tempMole;
     }
 
     float randomExposure()

@@ -14,7 +14,7 @@ public class HammerController : MonoBehaviour
     void Start()
     {
         score = 0;
-        ms = GetComponent < MoleSpawner>();
+        ms = GetComponent<MoleSpawner>();
         
     }
 
@@ -27,11 +27,24 @@ public class HammerController : MonoBehaviour
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+            
             if(hit.collider != null)
             {
-                Destroy(hit.transform.gameObject);
-                score += 1;
+                // Score change if bonus, malus or basic mole
+                if(hit.transform.gameObject.name.Equals("bonusMole(Clone)"))
+                {
+                    score += 3;
+                } 
+                else if (hit.transform.gameObject.name.Equals("malusMole(Clone)"))
+                {
+                    score -= 2;
+                }
+                else
+                {
+                    score += 1;
+                }
                 scoreText.text = score.ToString();
+                Destroy(hit.transform.gameObject);
                 ms.Spawn();
             }
         }
