@@ -152,19 +152,71 @@ public class MoleSpawner : MonoBehaviour
     {
         return combin(k, n) * Mathf.Pow(p, k) * Mathf.Pow(1-p, n-k);
     }
+    float tirageBinomiale(int n, float p)
+    {
+        float p1, p2;
+        int k = 0;
+        p1 = Random.Range(0.0f, 1.0f);
+        p2 = loiBinomiale(k, n, p);
+        while (p1 > p2)
+        {
+            k = k +1;
+            p2 = p2 + loiBinomiale(k, n, p);
+        }
+        return k;
+    }
 
     float loiPoisson(int k, int L)
     {
         return Mathf.Exp(-L) * Mathf.Pow(L, k) / fact(k);
+    }
+    float tiragePoisson(int L)
+    {
+        float p1, p2;
+        int k = 0;
+        p1 = Random.Range(0.0f, 1.0f);
+        p2 = loiPoisson(k, L);
+        while (p1 > p2)
+        {
+            k = k +1;
+            p2 = p2 + loiPoisson(k, L);
+        }
+        return k;
     }
 
     float loiGeometrique(int k, float p)
     {
         return Mathf.Pow((1-p), (k-1)) * p;
     }
+    float tirageGeometrique(float p)
+    {
+        float p1, p2;
+        int k = 0;
+        p1 = Random.Range(0.0f, 1.0f);
+        p2 = loiGeometrique(k, p);
+        while (p1 > p2)
+        {
+            k = k +1;
+            p2 = p2 + loiGeometrique(k, p);
+        }
+        return k;
+    }
 
     float loiHyperGeo(int k, int n, int g, int t)
     {
         return combin(k, g) * combin(n-k, t-g) / combin(n, t);
+    }
+    float tirageHyperGeo(int n, int g, int t)
+    {
+        float p1, p2;
+        int k = 0;
+        p1 = Random.Range(0.0f, 1.0f);
+        p2 = loiHyperGeo(k, n, g, t);
+        while (p1 > p2)
+        {
+            k = k +1;
+            p2 = p2 + loiHyperGeo(k, n, g, t);
+        }
+        return k;
     }
 }
