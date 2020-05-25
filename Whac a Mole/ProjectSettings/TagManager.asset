@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Backgound
+    uniqueID: 2388391271
+    locked: 0
+  - name: Terrier
+    uniqueID: 3491750585
+    locked: 0
+  - name: Mole
+    uniqueID: 1558757739
+    locked: 0

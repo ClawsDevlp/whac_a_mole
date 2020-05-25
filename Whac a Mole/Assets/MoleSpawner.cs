@@ -74,7 +74,8 @@ public class MoleSpawner : MonoBehaviour
         mole.transform.position = spawnPoints[randomSpawn()].transform.position;
     }
 
-    // Random à remplacer par les proba du prof
+    // Loi de propa
+    // uniforme ?
     int randomSpawn()
     {
         int randomSpawn = -1;
@@ -87,11 +88,13 @@ public class MoleSpawner : MonoBehaviour
         return randomSpawn;
     }
 
+    // continue 
     Color randomColor()
     {
         return new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f),1);
     }
 
+    // poisson
     GameObject randomType()
     {
         float t = Random.Range(0, 7);
@@ -118,6 +121,50 @@ public class MoleSpawner : MonoBehaviour
 
     float randomFrequency()
     {
+        
         return Random.Range(0.5f, 3.0f);
+    }
+
+    // Mathematic tool
+    float fact(int n)
+    {
+       if (n==0)
+       {
+          return 1;
+       }
+       else
+       {
+           return n*fact(n - 1);
+       } 
+    }
+
+    float combin(int k, int n)
+    {
+        return fact(n) / (fact(k) * fact(n-k));
+    }
+
+    float loiUniforme(int n)
+    {
+        return 1 / n;
+    }
+
+    float loiBinomiale(int k, int n, float p)
+    {
+        return combin(k, n) * Mathf.Pow(p, k) * Mathf.Pow(1-p, n-k);
+    }
+
+    float loiPoisson(int k, int L)
+    {
+        return Mathf.Exp(-L) * Mathf.Pow(L, k) / fact(k);
+    }
+
+    float loiGeometrique(int k, float p)
+    {
+        return Mathf.Pow((1-p), (k-1)) * p;
+    }
+
+    float loiHyperGeo(int k, int n, int g, int t)
+    {
+        return combin(k, g) * combin(n-k, t-g) / combin(n, t);
     }
 }
