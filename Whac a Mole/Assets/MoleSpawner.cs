@@ -74,30 +74,29 @@ public class MoleSpawner : MonoBehaviour
         mole.transform.position = spawnPoints[randomSpawn()].transform.position;
     }
 
-    // Loi de propa
-    // uniforme ?
+    //----- Radom functions -----//
     int randomSpawn()
     {
         int randomSpawn = -1;
+
         // Not on same position as last mole
         while(randomSpawn == lastIndexSpawn || randomSpawn == -1)
         {
-            randomSpawn = Random.Range(0, spawnPoints.Length);
+            randomSpawn = (int) tirageBinomiale(spawnPoints.Length, 0.5f); // BINOMIALE
         }
         lastIndexSpawn = randomSpawn;
         return randomSpawn;
     }
 
-    // continue 
     Color randomColor()
     {
-        return new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f),1);
+        return new Color(loiUniforme(0.0f, 1.0f), loiUniforme(0.0f, 1.0f), loiUniforme(0.0f, 1.0f), 1); // UNIFORME
     }
 
-    // poisson
     GameObject randomType()
     {
-        float t = Random.Range(0, 7);
+        float t = tiragePoisson(7); // POISSON
+
         GameObject tempMole;
         if (t == 5)
         {
@@ -116,16 +115,15 @@ public class MoleSpawner : MonoBehaviour
 
     float randomExposure()
     {
-        return Random.Range(0.5f, 2.0f);
+        return tirageHyperGeo(20, 500, 1000); // HYPERGEO
     }
 
     float randomFrequency()
     {
-        
-        return Random.Range(0.5f, 3.0f);
+        return tirageHyperGeo(30, 500, 1000); // HYPERGEO
     }
 
-    // Mathematic tool
+    // ------ Mathematic tools ------ //
     float fact(int n)
     {
        if (n==0)
@@ -143,11 +141,17 @@ public class MoleSpawner : MonoBehaviour
         return fact(n) / (fact(k) * fact(n-k));
     }
 
-    float loiUniforme(int n)
+    // ------ Variable functions ------ //
+
+    // -- Continue -- //
+    // UNIFORME
+    float loiUniforme(float max, float min)
     {
-        return 1 / n;
+        return Random.value * (max - min) + min;
     }
 
+    // -- Discrete -- //
+    // BINOMIALE
     float loiBinomiale(int k, int n, float p)
     {
         return combin(k, n) * Mathf.Pow(p, k) * Mathf.Pow(1-p, n-k);
@@ -166,6 +170,7 @@ public class MoleSpawner : MonoBehaviour
         return k;
     }
 
+    // POISSON
     float loiPoisson(int k, int L)
     {
         return Mathf.Exp(-L) * Mathf.Pow(L, k) / fact(k);
@@ -184,10 +189,23 @@ public class MoleSpawner : MonoBehaviour
         return k;
     }
 
+    // BERNOULLI
+    float loiBernoulli(float p)
+    {
+        if( Random.Range(0.0f, 1.0f) < p )
+        {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    // GEOMETRIQUE
     float loiGeometrique(int k, float p)
     {
         return Mathf.Pow((1-p), (k-1)) * p;
     }
+
     float tirageGeometrique(float p)
     {
         float p1, p2;
@@ -202,14 +220,16 @@ public class MoleSpawner : MonoBehaviour
         return k;
     }
 
+    // HYPER GEO
     float loiHyperGeo(int k, int n, int g, int t)
     {
         return combin(k, g) * combin(n-k, t-g) / combin(n, t);
     }
+
     float tirageHyperGeo(int n, int g, int t)
     {
         float p1, p2;
-        int k = 0;
+        int k = 9;
         p1 = Random.Range(0.0f, 1.0f);
         p2 = loiHyperGeo(k, n, g, t);
         while (p1 > p2)
@@ -217,6 +237,6 @@ public class MoleSpawner : MonoBehaviour
             k = k +1;
             p2 = p2 + loiHyperGeo(k, n, g, t);
         }
-        return k;
+        return k / 7;
     }
 }
