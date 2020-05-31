@@ -15,7 +15,6 @@ public class HammerController : MonoBehaviour
     {
         score = 0;
         ms = GetComponent<MoleSpawner>();
-        
     }
 
     // Update is called once per frame

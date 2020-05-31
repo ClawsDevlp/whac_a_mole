@@ -21,6 +21,7 @@ public class MoleSpawner : MonoBehaviour
     public Transform[] spawnPoints;
     private float moleTime;
     private int lastIndexSpawn;
+    public bool gameStarted = false;
 
 
     //////////////////////////
@@ -39,9 +40,18 @@ public class MoleSpawner : MonoBehaviour
     {
         // Timer
         gameTime -= Time.deltaTime;
+
+        // End time
         if(gameTime < 1)
         {
             gameTime = 0;
+
+            if(gameStarted == true)
+            {
+                GetComponent<EndComponent>().updateScore();
+                GetComponent<EndComponent>().endGame.gameObject.SetActive(true);   
+                gameStarted = false;                
+            }
         }
         gameText.text = gameTime.ToString();
 
@@ -237,6 +247,6 @@ public class MoleSpawner : MonoBehaviour
             k = k +1;
             p2 = p2 + loiHyperGeo(k, n, g, t);
         }
-        return k / 7;
+        return k / 9;
     }
 }
