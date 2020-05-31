@@ -50,3 +50,6 @@ TagManager:
   - name: Mole
     uniqueID: 1558757739
     locked: 0
+  - name: Page
+    uniqueID: 2580985793
+    locked: 0
