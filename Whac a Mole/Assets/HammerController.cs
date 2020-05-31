@@ -7,8 +7,9 @@ public class HammerController : MonoBehaviour
 {
     public Text scoreText;
     public int score;
-
     private MoleSpawner ms;
+    public Texture2D flowerCursor;
+    public Texture2D hammerCursor;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +47,32 @@ public class HammerController : MonoBehaviour
                 Destroy(hit.transform.gameObject);
                 ms.Spawn();
             }
+        }
+    }
+
+    public void cursorChange(int cursorChoice)
+    {
+        float choice =  loiBernoulli(cursorChoice);
+        if(choice == 1)
+        {
+            Cursor.SetCursor(flowerCursor, new Vector2(0, 0), CursorMode.Auto);
+        }
+        else
+        {
+            Cursor.SetCursor(hammerCursor, new Vector2(0, 0), CursorMode.Auto);
+        }
+    }
+    // ------ Variable functions ------ //
+    // BERNOULLI
+    float loiBernoulli(int p)
+    {
+        if( Random.Range(0.0f, 1.0f) < ((float) p / 10) )
+        {
+            return 1;
+        } 
+        else 
+        {
+            return 0;
         }
     }
 }

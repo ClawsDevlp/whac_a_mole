@@ -32,7 +32,6 @@ public class MoleSpawner : MonoBehaviour
     void Start()
     {
         lastIndexSpawn = -1;
-        Spawn();
     }
 
     // Update is called once per frame
@@ -45,6 +44,7 @@ public class MoleSpawner : MonoBehaviour
         if(gameTime < 1)
         {
             gameTime = 0;
+            Destroy(mole);
 
             if(gameStarted == true)
             {
@@ -84,7 +84,7 @@ public class MoleSpawner : MonoBehaviour
         mole.transform.position = spawnPoints[randomSpawn()].transform.position;
     }
 
-    //----- Radom functions -----//
+    //----- Random functions -----//
     int randomSpawn()
     {
         int randomSpawn = -1;
@@ -125,7 +125,17 @@ public class MoleSpawner : MonoBehaviour
 
     float randomExposure()
     {
-        return tirageHyperGeo(20, 500, 1000); // HYPERGEO
+        int timeExposure = 20;
+
+        if(mole == bonusMole) 
+        {
+            timeExposure = 5;
+        }
+        else if(mole == malusMole) 
+        {
+            timeExposure = 10;
+        }
+        return tirageHyperGeo(timeExposure, 500, 1000); // HYPERGEO
     }
 
     float randomFrequency()
@@ -199,18 +209,8 @@ public class MoleSpawner : MonoBehaviour
         return k;
     }
 
-    // BERNOULLI
-    float loiBernoulli(float p)
-    {
-        if( Random.Range(0.0f, 1.0f) < p )
-        {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    // GEOMETRIQUE
+    // GEOMETRIQUE (not used)
+    /*
     float loiGeometrique(int k, float p)
     {
         return Mathf.Pow((1-p), (k-1)) * p;
@@ -229,6 +229,7 @@ public class MoleSpawner : MonoBehaviour
         }
         return k;
     }
+    */
 
     // HYPER GEO
     float loiHyperGeo(int k, int n, int g, int t)
@@ -247,6 +248,6 @@ public class MoleSpawner : MonoBehaviour
             k = k +1;
             p2 = p2 + loiHyperGeo(k, n, g, t);
         }
-        return k / 9;
+        return (float) k / 9;
     }
 }

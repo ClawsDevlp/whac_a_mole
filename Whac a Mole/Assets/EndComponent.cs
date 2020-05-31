@@ -21,11 +21,13 @@ public class EndComponent : MonoBehaviour
         questionPage.gameObject.SetActive(true);
     }
 
-    public void startGame()
+    public void startGame(int cursorChoice)
     {
         questionPage.gameObject.SetActive(false);
         resetData();
         GetComponent<MoleSpawner>().gameStarted = true;
+        GetComponent<HammerController>().cursorChange(cursorChoice);
+        GetComponent<MoleSpawner>().Spawn();
     }
 
     public void resetData()
