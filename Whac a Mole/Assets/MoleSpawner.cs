@@ -100,7 +100,7 @@ public class MoleSpawner : MonoBehaviour
 
     Color randomColor()
     {
-        return new Color(loiUniforme(0.0f, 1.0f), loiUniforme(0.0f, 1.0f), loiUniforme(0.0f, 1.0f), 1); // UNIFORME
+        return new Color(loiUniformeC(0.0f, 1.0f), loiUniformeC(0.0f, 1.0f), loiUniformeC(0.0f, 1.0f), 1); // UNIFORME
     }
 
     GameObject randomType()
@@ -125,17 +125,21 @@ public class MoleSpawner : MonoBehaviour
 
     float randomExposure()
     {
-        int timeExposure = 20;
-
+        int k = (int) loiUniformeD(0.25f);
         if(mole == bonusMole) 
         {
-            timeExposure = 5;
+            float[] tab1 = {0.3f, 0.5f, 0.7f, 1.0f};
+            return tab1[k];
         }
         else if(mole == malusMole) 
         {
-            timeExposure = 10;
+            float[] tab2 = {1.0f, 1.3f, 1.7f, 2.0f};
+            return tab2[k];
         }
-        return tirageHyperGeo(timeExposure, 500, 1000); // HYPERGEO
+        else {
+            float[] tab3 = {0.5f, 1.0f, 1.5f, 2.0f};
+            return tab3[k];
+        }
     }
 
     float randomFrequency()
@@ -165,12 +169,18 @@ public class MoleSpawner : MonoBehaviour
 
     // -- Continue -- //
     // UNIFORME
-    float loiUniforme(float max, float min)
+    float loiUniformeC(float max, float min)
     {
         return Random.value * (max - min) + min;
     }
 
     // -- Discrete -- //
+    // UNIFORME
+    float loiUniformeD(float p)
+    {
+        return Random.Range(0, (1/p)-1);
+    }
+
     // BINOMIALE
     float loiBinomiale(int k, int n, float p)
     {
